@@ -19,18 +19,17 @@ npm install --save @vix/dicom-matcher
               | "NOT" <statement>
               | <statement> "AND" <statement>
               | <statement> "OR" <statement>
-<expr> ::= <dicom_var> == <dicom_value>
-         | <dicom_var> != <dicom_value>
-<dicom_var> ::= (<alias> | <tag>) ('.' (<alias> | <tag>))* ('==' | '!==') <dicom_value>
-<alias> ::= [a-zA-Z][a-zA-Z0-9]*
+<expr> ::= <dicom_var> ('==' | '!=') <dicom_value>
+<dicom_var> ::= (<identifier> | <tag>) ('.' (<identifier> | <tag>))*
+<identifier> ::= [a-zA-Z][a-zA-Z0-9]*
 <dicom_value> ::= <list> | <number> | <string> | <regex>
 <list> ::= ('ANY' | 'ALL') '[' (<number> | <string>) (',' (<number> | <string>))* ']'
 <tag> ::= '{' <tag_number> ',' <tag_number> '}'
-<tag_number> ::= '0x' <hex>+ | <number>
+<tag_number> ::= '0x' (<hex> | <digit> | '_'){4}
 <string> ::= '"' ?Any valid string character? '"'
 <regex> ::= ?Any valid javascript RegExp?
 <number> ::= <digit>+
-<hex> ::= ('A' | 'B' | 'C' | 'D' | 'E' | 'F' | <digit>)+
+<hex> ::= 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
 <digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 ```
 
