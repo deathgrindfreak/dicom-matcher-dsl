@@ -1,6 +1,6 @@
-# Dicom Matcher
+# DICOM Matching DSL
 
-> A language for matching against DICOM files
+> A tiny DSL for matching against DICOM files
 
 ## Getting Started
 

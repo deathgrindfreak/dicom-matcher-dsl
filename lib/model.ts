@@ -62,8 +62,8 @@ export function isWildcardExpr(tree: any): tree is WildcardExpr {
 }
 
 export function isTag(tree: any): tree is Tag {
-  return typeof tree?.group === 'number'
-    && typeof tree?.element === 'number'
+  return (typeof tree?.group === 'number' || isWildcardExpr(tree?.group))
+    && (typeof tree?.element === 'number' || isWildcardExpr(tree?.element))
 }
 
 export function isRegExpExpr(tree: any): tree is RegExpExpr {

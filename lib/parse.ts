@@ -3,12 +3,22 @@ import { isTag, Operation, RHS, Tag, Token, TokenType } from "./model";
 
 export class Parser {
   private readonly tokens: Token[];
-  private readonly variables: Map<string, Tag | string | number> = new Map();
+  private readonly variables: Map<string, Tag | RHS> = new Map();
   private idx = 0;
 
-  public static parse(tokens: Token[]) {
+  public static parse(tokens: Token[]): Operation {
     const parser = new Parser(tokens)
     parser.parseDefinitionsBlock();
+
+    // An empty match expression should match everything by default
+    if (parser.check(TokenType.EOF)) {
+      return {
+        op: 'TAUTOLOGY',
+        lhs: {group: 0, element: 0},
+        rhs: null,
+      }
+    }
+
     return parser.parseExpression(0);
   }
 
@@ -29,11 +39,12 @@ export class Parser {
     }
   }
 
-  private parseAssignment(): [string, Tag | string | number] {
+  private parseAssignment(): [string, Tag | RHS] {
     const lhs = this.consume(TokenType.Identifier, 'Expected identifier');
     this.consume(TokenType.Assign, 'Expected "="')
-    const rhs = this.parseTag() ?? this.parseComparisonValue();
-    return [lhs.literal, isTag(rhs) ? rhs : rhs.literal];
+    const rhs = this.parseTag() ?? this.parseRHSValue();
+    if (!rhs) throw new ParseError('Expected rhs');
+    return [lhs.literal, rhs];
   }
 
   // If this looks weird, it's because Pratt parsing is weird
@@ -191,8 +202,12 @@ export class Parser {
       }
 
       return {
-        group: group.type === TokenType.Number ? group.literal : group,
-        element: element.type === TokenType.Number ? element.literal : element,
+        group: group.type === TokenType.Number
+          ? group.literal
+          : {type: 'Wildcard', value: group.literal},
+        element: element.type === TokenType.Number
+          ? element.literal
+          : {type: 'Wildcard', value: element.literal},
         child
       }
     }
@@ -215,7 +230,7 @@ export class Parser {
     return null;
   }
 
-  private check(tokenType: TokenType): boolean {
+  protected check(tokenType: TokenType): boolean {
     return this.peek()?.type === tokenType;
   }
 

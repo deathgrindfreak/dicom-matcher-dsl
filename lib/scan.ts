@@ -94,9 +94,14 @@ export class Scanner {
     // Capture initial character
     this.idx--;
     let identBody = '';
-    while (/^[a-zA-Z]$/.test(this.peek() ?? '')) {
+    while (/^[a-zA-Z0-9]$/.test(this.peek() ?? '')) {
       identBody += this.advance();
     }
+
+    if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(identBody)) {
+      throw new ScanError('Expected identifier');
+    }
+
     const isKeyword = this.isKeyword(identBody);
     this.tokens.push({
       type: isKeyword ? TokenType.Keyword : TokenType.Identifier,
