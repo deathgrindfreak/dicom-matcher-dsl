@@ -1,0 +1,16 @@
+dist/
+
+# Mac OSX
+.DS_Store
+
+# Editors
+.idea/
+
+# NPM
+node_modules/
+*.log
+
+# General
+tmp/
+.tmp
+

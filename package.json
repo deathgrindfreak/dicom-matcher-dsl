@@ -1,0 +1,36 @@
+{
+  "name": "@vix/dicom-matcher",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "description": "A language for matching against DICOM files",
+  "contributors": [
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "help": "project-core help",
+    "build": "project-core build",
+    "assemble": "project-core assemble",
+    "test": "project-core test",
+    "clean": "project-core clean",
+    "dev": "project-core dev",
+    "dev:test": "project-core dev:test",
+    "dev:assemble": "project-core dev:assemble",
+    "prepublishOnly": "project-core build"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/mocha": "^9",
+    "@types/chai": "^4",
+    "@vix/project-core-cli": "^3",
+    "@vix/project-tasks-typescript": "^5",
+    "chai": "^4",
+    "mocha": "^9",
+    "ts-node": "^10",
+    "typescript": "^4"
+  },
+  "homepage": "https://github.com/VeracityInnovations/dicom-matcher-lib",
+  "repository": "git@github.com:VeracityInnovations/dicom-matcher-lib.git",
+  "issues": "https://github.com/VeracityInnovations/dicom-matcher-lib/issues"
+}
