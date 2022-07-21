@@ -26,8 +26,7 @@ export class TagEvaluate {
   }
 
   public currentAst() {
-    const clone = Object.assign({}, this.ast);
-    return clone;
+    return {...this.ast};
   }
 
   public update(input: Tag, value: string | number): boolean {
